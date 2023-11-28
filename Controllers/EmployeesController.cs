@@ -23,5 +23,25 @@ namespace MongoDB.Controllers
         {
             return await _employees.Find(e => true).ToListAsync();
         }
+
+        [HttpDelete]
+        public async Task<DeleteResult> Delete(string id)
+        {
+            return await _employees.DeleteOneAsync(e => e.Id == id);
+        }
+
+        [HttpPost]
+        public async Task<Employee> Post(Employee employee)
+        {
+            await _employees.InsertOneAsync(employee);
+            return employee;    
+        }
+
+        [HttpPut]
+        public async Task<Employee> Put(string id, Employee employee)
+        {
+            await _employees.ReplaceOneAsync(e => e.Id == id, employee);
+            return employee;
+        }
     }
 }
